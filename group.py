@@ -7,6 +7,7 @@ class Group:
 
 
 class User:
+
     def __init__(self, firstname, lastname, address, email, email2, hometel, mobiletel):
         self.firstname = firstname
         self.lastname = lastname
