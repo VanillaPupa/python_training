@@ -21,7 +21,7 @@ class Second_test(unittest.TestCase):
     def test_add_user(self):
         wd = self.wd
         open_home_page(wd)
-        login(wd)
+        login(wd, username="admin", password="secret")
         self.add_user(wd, User(firstname="Sherlock", lastname="Holmes", address="221b, Baker Street, London, UK",
                  email="Sherlock@Museum.com", email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355"))
         logout(wd)
