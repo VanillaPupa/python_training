@@ -2,6 +2,7 @@
 from selenium.webdriver.firefox.webdriver import WebDriver
 import unittest
 from group import Group
+from login_logout import *
 
 
 def is_alert_present(wd):
@@ -19,24 +20,21 @@ class first_test(unittest.TestCase):
     
     def test_create_group(self):
         wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, username="admin", password="secret")
+        open_home_page(wd)
+        login(wd, username="admin", password="secret")
         self.open_groups_page(wd)
-        self.create_group(wd, Group(name="Test group_2", header="Header 4 test group_2", footer="Footer 4 test group_2"))
+        self.create_group(wd, Group(name="Test group2", header="Header 4 test group2", footer="Footer 4 test group2"))
         self.return_to_groups_page(wd)
-        self.logout(wd)
+        logout(wd)
 
     def test_create_empty_group(self):
         wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, username="admin", password="secret")
+        open_home_page(wd)
+        login(wd, username="admin", password="secret")
         self.open_groups_page(wd)
         self.create_group(wd, Group(name="", header="", footer=""))
         self.return_to_groups_page(wd)
-        self.logout(wd)
-
-    def logout(self, wd):
-        wd.find_element_by_link_text("Logout").click()
+        logout(wd)
 
     def return_to_groups_page(self, wd):
         wd.find_element_by_link_text("group page").click()
@@ -61,19 +59,6 @@ class first_test(unittest.TestCase):
 
     def open_groups_page(self, wd):
         wd.find_element_by_link_text("groups").click()
-
-    def login(self, wd, username, password):
-        wd.find_element_by_id("LoginForm").click()
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
-
-    def open_home_page(self, wd):
-        wd.get("http://localhost/addressbook/")
 
     def tearDown(self):
         self.wd.quit()
