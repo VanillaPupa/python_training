@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from selenium.webdriver.firefox.webdriver import WebDriver
-import time, unittest
+import unittest
 from group import User
+from login_logout import *
 
 
 def is_alert_present(wd):
@@ -19,24 +20,11 @@ class Second_test(unittest.TestCase):
     
     def test_add_user(self):
         wd = self.wd
-        # открытие домашней страницы
-        # узнать, можно ли вытащить функцию в отдельный файл и использовать для first_test и second_test
-        wd.get("http://localhost/addressbook/")
-        # login
-        # аналогично с переходом на домашнюю страницу - вынести в отдельный файл
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
-        # def add_user
+        open_home_page(wd)
+        login(wd)
         self.add_user(wd, User(firstname="Sherlock", lastname="Holmes", address="221b, Baker Street, London, UK",
                  email="Sherlock@Museum.com", email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355"))
-        # logout
-        # аналогично с переходом на домашнюю страницу - вынести в отдельный файл
-        wd.find_element_by_link_text("Logout").click()
+        logout(wd)
 
     def add_user(self, wd, user):
         # init adding user
