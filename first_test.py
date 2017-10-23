@@ -1,67 +1,28 @@
 # -*- coding: utf-8 -*-
-from selenium.webdriver.firefox.webdriver import WebDriver
-import unittest
+import pytest
 from group import Group
-from login_logout import *
+from application import Application
 
 
-def is_alert_present(wd):
-    try:
-        wd.switch_to_alert().text
-        return True
-    except:
-        return False
+@pytest.fixture
+def app(request):
+    fixture = Application()
+    request.addfinalizer(fixture.destroy)
+    return fixture
 
 
-class first_test(unittest.TestCase):
-    def setUp(self):
-        self.wd = WebDriver()
-        self.wd.implicitly_wait(60)
-    
-    def test_create_group(self):
-        wd = self.wd
-        open_home_page(wd)
-        login(wd, username="admin", password="secret")
-        self.open_groups_page(wd)
-        self.create_group(wd, Group(name="Test group2", header="Header 4 test group2", footer="Footer 4 test group2"))
-        self.return_to_groups_page(wd)
-        logout(wd)
+def test_create_group(app):
+    app.login(username="admin", password="secret")
+    app.open_groups_page()
+    app.create_group(Group(name="Test group2", header="Header 4 test group2", footer="Footer 4 test group2"))
+    app.logout()
 
-    def test_create_empty_group(self):
-        wd = self.wd
-        open_home_page(wd)
-        login(wd, username="admin", password="secret")
-        self.open_groups_page(wd)
-        self.create_group(wd, Group(name="", header="", footer=""))
-        self.return_to_groups_page(wd)
-        logout(wd)
 
-    def return_to_groups_page(self, wd):
-        wd.find_element_by_link_text("group page").click()
-
-    def create_group(self, wd, group):
-        # init group creation
-        wd.find_element_by_name("new").click()
-        # fill group form
-        wd.find_element_by_name("group_name").click()
-        wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys(group.name)
-        wd.find_element_by_name("group_header").click()
-        wd.find_element_by_name("group_header").click()
-        wd.find_element_by_name("group_header").click()
-        wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(group.header)
-        wd.find_element_by_name("group_footer").click()
-        wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(group.footer)
-        # submit group creation
-        wd.find_element_by_name("submit").click()
-
-    def open_groups_page(self, wd):
-        wd.find_element_by_link_text("groups").click()
-
-    def tearDown(self):
-        self.wd.quit()
+def test_create_empty_group(app):
+    app.login(username="admin", password="secret")
+    app.open_groups_page()
+    app.create_group(Group(name="", header="", footer=""))
+    app.logout()
 
 
 if __name__ == '__main__':
