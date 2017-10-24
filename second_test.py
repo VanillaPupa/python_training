@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
-from group import User
+from user import User
 from application import Application
 
 
