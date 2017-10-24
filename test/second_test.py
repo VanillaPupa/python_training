@@ -13,10 +13,10 @@ def app(request):
 
 
 def test_add_user(app):
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.add_user(User(firstname="Sherlock", lastname="Holmes", address="221b, Baker Street, London, UK",
                  email="Sherlock@Museum.com", email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355"))
-    app.logout()
+    app.session.logout()
 
 
 if __name__ == '__main__':
