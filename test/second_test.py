@@ -17,7 +17,3 @@ def test_add_user(app):
     app.user.add(User(firstname="Sherlock", lastname="Holmes", address="221b, Baker Street, London, UK",
                       email="Sherlock@Museum.com", email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355"))
     app.session.logout()
-
-
-if __name__ == '__main__':
-    unittest.main()
