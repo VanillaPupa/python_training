@@ -13,9 +13,10 @@ class GroupHelper:
         self.create(Group(name, header, footer))
         self.session.logout()
 
-    def open_groups_page(self):
-        wd = self.app.wd
-        wd.find_element_by_link_text("groups").click()
+    def delete_first_group(self, username, password):
+        self.session.login(username, password)
+        self.delete_first()
+        self.session.logout()
 
     def create(self, group):
         wd = self.app.wd
@@ -38,10 +39,6 @@ class GroupHelper:
         wd.find_element_by_name("submit").click()
         self.return_to_groups_page()
 
-    def return_to_groups_page(self):
-        wd = self.app.wd
-        wd.find_element_by_link_text("group page").click()
-
     def delete_first(self):
         wd = self.app.wd
         self.open_groups_page()
@@ -51,7 +48,10 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
-    def delete_first_group(self, username, password):
-        self.session.login(username, password)
-        self.delete_first()
-        self.session.logout()
+    def open_groups_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("groups").click()
+
+    def return_to_groups_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("group page").click()
