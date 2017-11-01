@@ -1,18 +1,5 @@
-# -*- coding: utf-8 -*-
-import pytest
-
-from fixture.application import Application
-
-
-@pytest.fixture
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
-
-
 def test_create_group(app):
-    app.group.create_group(username="admin", password="secret", name="Test group2", header="Header 4 test group2",
+    app.group.create_group(username="admin", password="secret", name="Test group", header="Header 4 test group2",
                              footer="Footer 4 test group2")
 
 

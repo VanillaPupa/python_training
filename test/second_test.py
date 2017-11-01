@@ -1,16 +1,3 @@
-# -*- coding: utf-8 -*-
-import pytest
-
-from fixture.application import Application
-
-
-@pytest.fixture
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
-
-
 def test_add_user(app):
     app.user.create_user(username="admin", password="secret", firstname="Sherlock", lastname="Holmes",
                             address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
