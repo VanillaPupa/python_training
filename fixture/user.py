@@ -1,9 +1,19 @@
+from fixture.session import SessionHelper
+from model.user import User
+
+
 class UserHelper:
 
     def __init__(self, app):
         self.app = app
+        self.session = SessionHelper(app)
 
-    def add(self, user):
+    def create_user(self, username, password, firstname, lastname, address, email, email2, hometel, mobiletel):
+        self.session.login(username, password)
+        self.add_user(User(firstname, lastname, address, email, email2, hometel, mobiletel))
+        self.session.logout()
+
+    def add_user(self, user):
         wd = self.app.wd
         # init adding user
         wd.find_element_by_link_text("add new").click()

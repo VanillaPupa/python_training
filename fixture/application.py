@@ -1,5 +1,6 @@
 from selenium.webdriver.firefox.webdriver import WebDriver
 from fixture.manager import HelperManager
+from fixture.user import UserHelper
 
 
 class Application:
@@ -8,6 +9,7 @@ class Application:
         self.wd = WebDriver()
         self.wd.implicitly_wait(60)
         self.manager = HelperManager(self)
+        self.user = UserHelper(self)
 
     def open_home_page(self):
         wd = self.wd
