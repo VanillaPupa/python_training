@@ -1,7 +1,17 @@
+from fixture.session import SessionHelper
+from model.group import Group
+
+
 class GroupHelper:
 
     def __init__(self, app):
         self.app = app
+        self.session = SessionHelper(app)
+
+    def create_group(self, username, password, name, header, footer):
+        self.session.login(username, password)
+        self.create(Group(name, header, footer))
+        self.session.logout()
 
     def open_groups_page(self):
         wd = self.app.wd

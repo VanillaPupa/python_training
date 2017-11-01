@@ -13,9 +13,9 @@ def app(request):
 
 
 def test_create_group(app):
-    app.manager.create_group(username="admin", password="secret", name="Test group2", header="Header 4 test group2",
+    app.group.create_group(username="admin", password="secret", name="Test group2", header="Header 4 test group2",
                              footer="Footer 4 test group2")
 
 
 def test_create_empty_group(app):
-    app.manager.create_group(username="admin", password="secret", name="", header="", footer="")
+    app.group.create_group(username="admin", password="secret", name="", header="", footer="")
