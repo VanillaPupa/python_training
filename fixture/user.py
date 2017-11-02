@@ -6,9 +6,9 @@ class UserHelper:
     def __init__(self, app):
         self.app = app
 
-    def create_user(self, app, username, password, firstname, lastname, address, email, email2, hometel, mobiletel):
+    def create_user(self, app, contact, username, password):
         app.session.login(username, password)
-        self.add_user(User(firstname, lastname, address, email, email2, hometel, mobiletel))
+        self.add_user(contact)
         app.session.logout()
 
     def delete_first_user(self, app, username, password):
@@ -16,32 +16,37 @@ class UserHelper:
         self.delete_first()
         app.session.logout()
 
-    def add_user(self, user):
+    # def update_first_user(self, app, username, password, firstname, lastname, address, email, email2, hometel, mobiletel):
+        # app.session.login(username, password)
+        # self.update_first(User(firstname, lastname, address, email, email2, hometel, mobiletel)
+        # app.session.logout()
+
+    def add_user(self, contact):
         wd = self.app.wd
         # init adding user
         wd.find_element_by_link_text("add new").click()
-        # fill group form
+        # fill user form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(user.firstname)
+        wd.find_element_by_name("firstname").send_keys(contact.firstname)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(user.lastname)
+        wd.find_element_by_name("lastname").send_keys(contact.lastname)
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(user.address)
+        wd.find_element_by_name("address").send_keys(contact.address)
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(user.email)
+        wd.find_element_by_name("email").send_keys(contact.email)
         wd.find_element_by_name("email2").click()
         wd.find_element_by_name("email2").clear()
-        wd.find_element_by_name("email2").send_keys(user.email2)
+        wd.find_element_by_name("email2").send_keys(contact.email2)
         wd.find_element_by_name("home").click()
         wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(user.hometel)
+        wd.find_element_by_name("home").send_keys(contact.hometel)
         wd.find_element_by_name("mobile").click()
         wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys(user.mobiletel)
+        wd.find_element_by_name("mobile").send_keys(contact.mobiletel)
         # submit user creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
@@ -50,7 +55,16 @@ class UserHelper:
         # select first user
         wd.find_element_by_name("selected[]").click()
         # submit deletion
-        # wd.find_element_by_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         # confirm deletion
         wd.switch_to_alert().accept()
+
+    # def update_first(self, user):
+        # wd = self.app.wd
+        # select first user
+        # wd.find_element_by_name("selected[]").click()
+        # open update form
+        # wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        # fill user form
+        # confirm
+        # wd.switch_to_alert().accept()
