@@ -1,7 +1,11 @@
+from model.group import Group
+
+
 def test_create_group(app):
-    app.group.create_group(app, username="admin", password="secret", name="Test group", header="Header 4 test group",
-                             footer="Footer 4 test group")
+    group_form = Group(name="Test group", header="Header 4 group", footer="Footer 4 group")
+    app.group.create_group(app, group_form, username="admin", password="secret", )
 
 
 def test_create_empty_group(app):
-    app.group.create_group(app, username="admin", password="secret", name="", header="", footer="")
+    group_form = Group(name="", header="", footer="")
+    app.group.create_group(app, group_form, username="admin", password="secret")
