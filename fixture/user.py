@@ -75,5 +75,5 @@ class UserHelper:
         wd.find_element_by_name("email2").click()
         wd.find_element_by_name("email2").clear()
         wd.find_element_by_name("email2").send_keys(contact.email2)
-        # submit user creation
+        # submit user update
         wd.find_element_by_name("update").click()
