@@ -11,6 +11,11 @@ class UserHelper:
         self.add_user(User(firstname, lastname, address, email, email2, hometel, mobiletel))
         app.session.logout()
 
+    def delete_first_user(self, app, username, password):
+        app.session.login(username, password)
+        self.delete_first()
+        app.session.logout()
+
     def add_user(self, user):
         wd = self.app.wd
         # init adding user
@@ -39,3 +44,13 @@ class UserHelper:
         wd.find_element_by_name("mobile").send_keys(user.mobiletel)
         # submit user creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def delete_first(self):
+        wd = self.app.wd
+        # select first user
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        # wd.find_element_by_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        # confirm deletion
+        wd.switch_to_alert().accept()
