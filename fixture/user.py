@@ -16,9 +16,9 @@ class UserHelper:
         self.delete_first()
         app.session.logout()
 
-    # def update_first_user(self, app, username, password, firstname, lastname, address, email, email2, hometel, mobiletel):
-        # app.session.login(username, password)
-        # self.update_first(User(firstname, lastname, address, email, email2, hometel, mobiletel)
+    def update_first_user(self, app, contact, username, password):
+        app.session.login(username, password)
+        self.update_first(contact)
         # app.session.logout()
 
     def add_user(self, contact):
@@ -59,12 +59,25 @@ class UserHelper:
         # confirm deletion
         wd.switch_to_alert().accept()
 
-    # def update_first(self, user):
-        # wd = self.app.wd
+    def update_first(self, contact):
+        wd = self.app.wd
         # select first user
-        # wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_name("selected[]").click()
         # open update form
-        # wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
+        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         # fill user form
-        # confirm
-        # wd.switch_to_alert().accept()
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys(contact.firstname)
+        wd.find_element_by_name("lastname").click()
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys(contact.lastname)
+        wd.find_element_by_name("email").click()
+        wd.find_element_by_name("email").clear()
+        wd.find_element_by_name("email").send_keys(contact.email)
+        wd.find_element_by_name("email2").click()
+        wd.find_element_by_name("email2").clear()
+        wd.find_element_by_name("email2").send_keys(contact.email2)
+        # submit user creation
+        wd.find_element_by_name("update").click()
+        
