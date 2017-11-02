@@ -1,4 +1,3 @@
-from fixture.session import SessionHelper
 from model.user import User
 
 
@@ -6,12 +5,11 @@ class UserHelper:
 
     def __init__(self, app):
         self.app = app
-        self.session = SessionHelper(app)
 
-    def create_user(self, username, password, firstname, lastname, address, email, email2, hometel, mobiletel):
-        self.session.login(username, password)
+    def create_user(self, app, username, password, firstname, lastname, address, email, email2, hometel, mobiletel):
+        app.session.login(username, password)
         self.add_user(User(firstname, lastname, address, email, email2, hometel, mobiletel))
-        self.session.logout()
+        app.session.logout()
 
     def add_user(self, user):
         wd = self.app.wd

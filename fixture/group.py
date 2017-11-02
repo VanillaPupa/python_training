@@ -1,4 +1,3 @@
-from fixture.session import SessionHelper
 from model.group import Group
 
 
@@ -6,17 +5,16 @@ class GroupHelper:
 
     def __init__(self, app):
         self.app = app
-        self.session = SessionHelper(app)
 
-    def create_group(self, username, password, name, header, footer):
-        self.session.login(username, password)
+    def create_group(self, app, username, password, name, header, footer):
+        app.session.login(username, password)
         self.create(Group(name, header, footer))
-        self.session.logout()
+        app.session.logout()
 
-    def delete_first_group(self, username, password):
-        self.session.login(username, password)
+    def delete_first_group(self, app, username, password):
+        app.session.login(username, password)
         self.delete_first()
-        self.session.logout()
+        app.session.logout()
 
     def create(self, group):
         wd = self.app.wd
