@@ -3,22 +3,7 @@ class UserHelper:
     def __init__(self, app):
         self.app = app
 
-    def create_user(self, app, contact, username, password):
-        app.session.login(username, password)
-        self.add_user(contact)
-        app.session.logout()
-
-    def delete_first_user(self, app, username, password):
-        app.session.login(username, password)
-        self.delete_first()
-        app.session.logout()
-
-    def update_first_user(self, app, contact, username, password):
-        app.session.login(username, password)
-        self.update_first(contact)
-        app.session.logout()
-
-    def add_user(self, contact):
+    def add(self, contact):
         wd = self.app.wd
         # init adding user
         wd.find_element_by_link_text("add new").click()
@@ -78,3 +63,18 @@ class UserHelper:
             wd.find_element_by_name("mobile").click()
             wd.find_element_by_name("mobile").clear()
             wd.find_element_by_name("mobile").send_keys(contact.mobiletel)
+
+    # def create_user(self, app, contact, username, password):
+        # app.session.login(username, password)
+        # self.add_user(contact)
+        # app.session.logout()
+
+    # def delete_first_user(self, app, username, password):
+        # app.session.login(username, password)
+        # self.delete_first()
+        # app.session.logout()
+
+    # def update_first_user(self, app, contact, username, password):
+        # app.session.login(username, password)
+        # self.update_first(contact)
+        # app.session.logout()

@@ -3,21 +3,6 @@ class GroupHelper:
     def __init__(self, app):
         self.app = app
 
-    # def create_group(self, app, group_form, username, password):
-        # app.session.login(username, password)
-        # self.create(group_form)
-        # app.session.logout()
-
-    # def delete_first_group(self, app, username, password):
-        # app.session.login(username, password)
-        # self.delete_first()
-        # app.session.logout()
-
-    # def update_first_group(self, app, group_form, username, password):
-        # app.session.login(username, password)
-        # self.update_first(group_form)
-        # app.session.logout()
-
     def create(self, group_form):
         wd = self.app.wd
         self.open_groups_page()
@@ -73,3 +58,19 @@ class GroupHelper:
     def return_to_groups_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("group page").click()
+
+
+    # def create_group(self, app, group_form, username, password):
+        # app.session.login(username, password)
+        # self.create(group_form)
+        # app.session.logout()
+
+    # def delete_first_group(self, app, username, password):
+        # app.session.login(username, password)
+        # self.delete_first()
+        # app.session.logout()
+
+    # def update_first_group(self, app, group_form, username, password):
+        # app.session.login(username, password)
+        # self.update_first(group_form)
+        # app.session.logout()
