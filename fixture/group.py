@@ -13,9 +13,9 @@ class GroupHelper:
         # self.delete_first()
         # app.session.logout()
 
-    def update_first_group(self, app, group_form, username, password):
+    # def update_first_group(self, app, group_form, username, password):
         # app.session.login(username, password)
-        self.update_first(group_form)
+        # self.update_first(group_form)
         # app.session.logout()
 
     def create(self, group_form):
