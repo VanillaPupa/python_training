@@ -6,4 +6,3 @@ def test_add_user(app):
                             address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
                             email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355")
     app.user.add(contact)
-    # app.user.create_user(app, contact, username="admin", password="secret")
