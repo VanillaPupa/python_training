@@ -68,6 +68,11 @@ class UserHelper:
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
 
+    def open_home_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0):
+            wd.get("http://localhost/addressbook/")
+
     # def create_user(self, app, contact, username, password):
         # app.session.login(username, password)
         # self.add_user(contact)
