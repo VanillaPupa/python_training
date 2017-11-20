@@ -13,6 +13,7 @@ class UserHelper:
         self.fill_user_form(contact)
         # submit user creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.user_list_cache = None
 
     def delete_first(self):
         wd = self.app.wd
@@ -21,6 +22,7 @@ class UserHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         # confirm deletion
         wd.switch_to_alert().accept()
+        self.user_list_cache = None
 
     def update_first(self, contact):
         wd = self.app.wd
@@ -31,6 +33,7 @@ class UserHelper:
         self.fill_user_form(contact)
         # submit user update
         wd.find_element_by_name("update").click()
+        self.user_list_cache = None
 
     def select_first_user(self):
         wd = self.app.wd
@@ -76,17 +79,20 @@ class UserHelper:
         if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0):
             wd.get("http://localhost/addressbook/")
 
+    user_list_cache = None
+
     def get_user_list(self):
-        wd = self.app.wd
-        self.open_home_page()
-        # создание пустого списка
-        user_list = []
-        for element in wd.find_elements_by_css_selector("tr[name=entry]"):
-            cell_firstname = element.find_element_by_css_selector("td:nth-child(3)").text
-            cell_lastname = element.find_element_by_css_selector("td:nth-child(2)").text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            user_list.append(User(firstname=cell_firstname, lastname=cell_lastname, user_id=id))
-        return user_list
+        if self.user_list_cache is None:
+            wd = self.app.wd
+            self.open_home_page()
+            # создание пустого списка
+            self.user_list_cache = []
+            for element in wd.find_elements_by_css_selector("tr[name=entry]"):
+                cell_firstname = element.find_element_by_css_selector("td:nth-child(3)").text
+                cell_lastname = element.find_element_by_css_selector("td:nth-child(2)").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.user_list_cache.append(User(firstname=cell_firstname, lastname=cell_lastname, user_id=id))
+        return list(self.user_list_cache)
 
     # def create_user(self, app, contact, username, password):
         # app.session.login(username, password)
