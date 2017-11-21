@@ -17,19 +17,19 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
-    def delete_first(self):
+    def delete_by_index(self, index):
         wd = self.app.wd
         self.open_groups_page()
-        self.select_first_group()
+        self.select_by_index(index)
         # submit deletion
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
         self.group_cache = None
 
-    def update_first(self, group_form):
+    def update_by_index(self, index, group_form):
         wd = self.app.wd
         self.open_groups_page()
-        self.select_first_group()
+        self.select_by_index(index)
         # open update form
         wd.find_element_by_xpath("//div[@id='content']/form/input[6]").click()
         self.fill_group_form(group_form)
@@ -43,9 +43,9 @@ class GroupHelper:
         if not (wd.current_url.endswith("/group.php") and len(wd.find_elements_by_name("new")) > 0):
             wd.find_element_by_link_text("groups").click()
 
-    def select_first_group(self):
+    def select_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def fill_group_form(self, group_form):
         wd = self.app.wd
@@ -83,6 +83,12 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, group_id=id))
         return list(self.group_cache)
+
+    def delete_first(self):
+        self.delete_by_index(0)
+
+    def update_first(self):
+        self.update_by_index(0)
 
     # def create_group(self, app, group_form, username, password):
         # app.session.login(username, password)
