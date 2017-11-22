@@ -15,19 +15,22 @@ class UserHelper:
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.user_list_cache = None
 
-    def delete_first(self):
+    def delete_by_index(self, index):
         wd = self.app.wd
-        self.select_first_user()
+        self.select_user_by_index(index)
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         # confirm deletion
         wd.switch_to_alert().accept()
         self.user_list_cache = None
 
-    def update_first(self, contact):
+    def update_first(self):
+        self.update_by_index(0)
+
+    def update_by_index(self, index, contact):
         wd = self.app.wd
         # select first user
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         # open update form
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.fill_user_form(contact)
@@ -35,9 +38,9 @@ class UserHelper:
         wd.find_element_by_name("update").click()
         self.user_list_cache = None
 
-    def select_first_user(self):
+    def select_user_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def fill_user_form(self, contact):
         wd = self.app.wd
@@ -93,6 +96,9 @@ class UserHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.user_list_cache.append(User(firstname=cell_firstname, lastname=cell_lastname, user_id=id))
         return list(self.user_list_cache)
+
+    def delete_first(self):
+        self.delete_by_index(0)
 
     # def create_user(self, app, contact, username, password):
         # app.session.login(username, password)
