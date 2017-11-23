@@ -22,6 +22,7 @@ class UserHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         # confirm deletion
         wd.switch_to_alert().accept()
+        wd.find_elements_by_css_selector("div.msgbox")
         self.user_list_cache = None
 
     def update_first(self):
