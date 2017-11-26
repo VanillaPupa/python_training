@@ -9,12 +9,24 @@ def test_update_some_user(app):
                        email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355")
         app.user.add(new_contact)
         app.user.open_home_page()
+    # формирование старого списка
     old_user_list = app.user.get_user_list()
+    # выбор индекса
     index = randrange(len(old_user_list))
+    # новый объект
     contact = User(firstname="John H.", lastname="Watson", email="JohnH.Watson@Museum.com", email2="Dr.Watson@Museum.com")
+    # запись id в новый объект
     contact.id = old_user_list[index].id
+    # перезапись строчки
     app.user.update_by_index(index, contact)
+    # формирование нового списка
     new_user_list = app.user.get_user_list()
+    # сравнение длин списков
     assert len(old_user_list) == len(new_user_list)
+    # перезапись строчки старого списка
     old_user_list[index] = contact
-    assert sorted(old_user_list, key=User.id_or_max) == sorted(new_user_list, key=User.id_or_max)
+    # сортировки
+    old_user_list_by_id = sorted(old_user_list, key=lambda user: user.id)
+    new_user_list_by_id = sorted(new_user_list, key=lambda user: user.id)
+    # сравнение отсортированных списков
+    assert old_user_list_by_id == new_user_list_by_id
