@@ -25,8 +25,6 @@ def test_update_some_user(app):
     assert len(old_user_list) == len(new_user_list)
     # перезапись строчки старого списка
     old_user_list[index] = contact
-    # сортировки
-    old_user_list_by_id = sorted(old_user_list, key=lambda user: user.id)
-    new_user_list_by_id = sorted(new_user_list, key=lambda user: user.id)
     # сравнение отсортированных списков
-    assert old_user_list_by_id == new_user_list_by_id
+    assert sorted(old_user_list, key=lambda user: user.id) == sorted(new_user_list, key=lambda user: user.id)
+

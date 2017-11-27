@@ -6,6 +6,25 @@ class UserHelper:
     def __init__(self, app):
         self.app = app
 
+# Получение списка контактов
+
+    user_list_cache = None
+
+    def get_user_list(self):
+        if self.user_list_cache is None:
+            wd = self.app.wd
+            self.open_home_page()
+            # создание пустого списка
+            self.user_list_cache = []
+            for element in wd.find_elements_by_css_selector("tr[name=entry]"):
+                cell_firstname = element.find_element_by_css_selector("td:nth-child(3)").text
+                cell_lastname = element.find_element_by_css_selector("td:nth-child(2)").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.user_list_cache.append(User(firstname=cell_firstname, lastname=cell_lastname, user_id=id))
+        return list(self.user_list_cache)
+
+# Методы для создания контакта
+
     def add(self, contact):
         wd = self.app.wd
         # init adding user
@@ -14,6 +33,33 @@ class UserHelper:
         # submit user creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.user_list_cache = None
+
+    # def create_user(self, app, contact, username, password):
+        # app.session.login(username, password)
+        # self.add_user(contact)
+        # app.session.logout()
+
+# Методы для редактирования контакта
+
+    def update_by_index(self, index, contact):
+        wd = self.app.wd
+        # Поиск элемента по индексу и нажатие на кнопку Edit
+        wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
+        # wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[???]/td[8]/a/img").click()
+        self.fill_user_form(contact)
+        # submit user update
+        wd.find_element_by_name("update").click()
+        self.user_list_cache = None
+
+    def update_first(self, contact):
+        self.update_by_index(0, contact)
+
+    # def update_first_user(self, app, contact, username, password):
+        # app.session.login(username, password)
+        # self.update_first(contact)
+        # app.session.logout()
+
+# Методы для удаления контакта
 
     def delete_by_index(self, index):
         wd = self.app.wd
@@ -25,23 +71,21 @@ class UserHelper:
         wd.find_elements_by_css_selector("div.msgbox")
         self.user_list_cache = None
 
-    def update_first(self):
-        self.update_by_index(0)
+    def delete_first(self):
+        self.delete_by_index(0)
 
-    def update_by_index(self, index, contact):
-        wd = self.app.wd
-        # select first user
-        wd.find_elements_by_name("selected[]")[index].click()
-        # open update form
-        wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
-        self.fill_user_form(contact)
-        # submit user update
-        wd.find_element_by_name("update").click()
-        self.user_list_cache = None
+    # def delete_first_user(self, app, username, password):
+        # app.session.login(username, password)
+        # self.delete_first()
+        # app.session.logout()
+
+# Методы для выбора контакта
 
     def select_user_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
+
+# Заполнение формы
 
     def fill_user_form(self, contact):
         wd = self.app.wd
@@ -74,6 +118,8 @@ class UserHelper:
             wd.find_element_by_name("mobile").clear()
             wd.find_element_by_name("mobile").send_keys(contact.mobiletel)
 
+# Другие методы
+
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
@@ -82,36 +128,3 @@ class UserHelper:
         wd = self.app.wd
         if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0):
             wd.get("http://localhost/addressbook/")
-
-    user_list_cache = None
-
-    def get_user_list(self):
-        if self.user_list_cache is None:
-            wd = self.app.wd
-            self.open_home_page()
-            # создание пустого списка
-            self.user_list_cache = []
-            for element in wd.find_elements_by_css_selector("tr[name=entry]"):
-                cell_firstname = element.find_element_by_css_selector("td:nth-child(3)").text
-                cell_lastname = element.find_element_by_css_selector("td:nth-child(2)").text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.user_list_cache.append(User(firstname=cell_firstname, lastname=cell_lastname, user_id=id))
-        return list(self.user_list_cache)
-
-    def delete_first(self):
-        self.delete_by_index(0)
-
-    # def create_user(self, app, contact, username, password):
-        # app.session.login(username, password)
-        # self.add_user(contact)
-        # app.session.logout()
-
-    # def delete_first_user(self, app, username, password):
-        # app.session.login(username, password)
-        # self.delete_first()
-        # app.session.logout()
-
-    # def update_first_user(self, app, contact, username, password):
-        # app.session.login(username, password)
-        # self.update_first(contact)
-        # app.session.logout()
