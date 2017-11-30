@@ -34,11 +34,6 @@ class UserHelper:
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.user_list_cache = None
 
-    # def create_user(self, app, contact, username, password):
-        # app.session.login(username, password)
-        # self.add_user(contact)
-        # app.session.logout()
-
 # Методы для редактирования контакта
 
     def update_by_index(self, index, contact):
@@ -54,11 +49,6 @@ class UserHelper:
     def update_first(self, contact):
         self.update_by_index(0, contact)
 
-    # def update_first_user(self, app, contact, username, password):
-        # app.session.login(username, password)
-        # self.update_first(contact)
-        # app.session.logout()
-
 # Методы для удаления контакта
 
     def delete_by_index(self, index):
@@ -73,11 +63,6 @@ class UserHelper:
 
     def delete_first(self):
         self.delete_by_index(0)
-
-    # def delete_first_user(self, app, username, password):
-        # app.session.login(username, password)
-        # self.delete_first()
-        # app.session.logout()
 
 # Методы для выбора контакта
 
