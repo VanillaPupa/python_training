@@ -40,7 +40,6 @@ class UserHelper:
         wd = self.app.wd
         # Поиск элемента по индексу и нажатие на кнопку Edit
         wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
-        # wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[???]/td[8]/a/img").click()
         self.fill_user_form(contact)
         # submit user update
         wd.find_element_by_name("update").click()
