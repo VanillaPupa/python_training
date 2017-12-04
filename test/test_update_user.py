@@ -5,8 +5,8 @@ from random import randrange
 def test_update_some_user(app):
     if app.user.count() == 0:
         new_contact = User(firstname="Sherlock", lastname="Holmes",
-                       address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
-                       email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355")
+                           address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
+                           email2="Holmes@Museum.com", homephone="3213213", mobilephone="+441712223355")
         app.user.add(new_contact)
         app.user.open_home_page()
     # формирование старого списка

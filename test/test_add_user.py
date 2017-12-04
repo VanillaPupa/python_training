@@ -6,8 +6,8 @@ def test_add_user(app):
     old_user_list = app.user.get_user_list()
     # данные для нового контакта
     contact = User(firstname="Sherlock", lastname="Holmes",
-                            address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
-                            email2="Holmes@Museum.com", hometel="3213213", mobiletel="+441712223355")
+                   address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
+                   email2="Holmes@Museum.com", homephone="3213213", mobilephone="+441712223355")
     # добавление контакта
     app.user.add(contact)
     # формирование нового списка пользователей

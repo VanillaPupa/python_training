@@ -16,11 +16,12 @@ class UserHelper:
             self.open_home_page()
             # создание пустого списка
             self.user_list_cache = []
-            for element in wd.find_elements_by_css_selector("tr[name=entry]"):
-                cell_firstname = element.find_element_by_css_selector("td:nth-child(3)").text
-                cell_lastname = element.find_element_by_css_selector("td:nth-child(2)").text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.user_list_cache.append(User(firstname=cell_firstname, lastname=cell_lastname, user_id=id))
+            for row in wd.find_elements_by_name("entry"):
+                cells = row.find_element_by_tag_name("td")
+                firstname = cells[1].text
+                lastname = cells[2].text
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                self.user_list_cache.append(User(firstname=firstname, lastname=lastname, user_id=id))
         return list(self.user_list_cache)
 
 # Методы для создания контакта
