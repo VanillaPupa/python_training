@@ -1,5 +1,5 @@
 from model.user import User
-
+import re
 
 class UserHelper:
 
@@ -14,14 +14,15 @@ class UserHelper:
         if self.user_list_cache is None:
             wd = self.app.wd
             self.open_home_page()
-            # создание пустого списка
             self.user_list_cache = []
             for row in wd.find_elements_by_name("entry"):
-                cells = row.find_element_by_tag_name("td")
-                firstname = cells[1].text
-                lastname = cells[2].text
+                cells = row.find_elements_by_tag_name("td")
+                firstname = cells[2].text
+                lastname = cells[1].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                self.user_list_cache.append(User(firstname=firstname, lastname=lastname, user_id=id))
+                all_phones = cells[5].text
+                self.user_list_cache.append(User(firstname=firstname, lastname=lastname, user_id=id,
+                                                 all_phones_frome_home_page=all_phones))
         return list(self.user_list_cache)
 
 # Методы для создания контакта
@@ -37,10 +38,15 @@ class UserHelper:
 
 # Методы для редактирования контакта
 
-    def update_by_index(self, index, contact):
+    def open_form_to_edit_by_index(self, index):
         wd = self.app.wd
+        self.open_home_page()
         # Поиск элемента по индексу и нажатие на кнопку Edit
         wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
+
+    def update_by_index(self, index, contact):
+        wd = self.app.wd
+        self.open_form_to_edit_by_index(index)
         self.fill_user_form(contact)
         # submit user update
         wd.find_element_by_name("update").click()
@@ -63,6 +69,37 @@ class UserHelper:
 
     def delete_first(self):
         self.delete_by_index(0)
+
+# Просмотр контакта
+
+    def open_user_view_by_index(self, index):
+        wd = self.app.wd
+        self.open_home_page()
+        wd.find_elements_by_css_selector("img[title='Details']")[index].click()
+
+    def get_user_info_from_edit_page(self, index):
+        wd = self.app.wd
+        self.open_form_to_edit_by_index(index)
+        firstname = wd.find_element_by_name("firstname").get_attribute("value")
+        lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        id = wd.find_element_by_name("id").get_attribute("value")
+        homephone = wd.find_element_by_name("home").get_attribute("value")
+        workphone = wd.find_element_by_name("work").get_attribute("value")
+        mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
+        additionalphone = wd.find_element_by_name("phone2").get_attribute("value")
+        return User(firstname=firstname, lastname=lastname, user_id=id, homephone=homephone,
+                    workphone=workphone, mobilephone=mobilephone, additionalphone=additionalphone)
+
+    def get_user_info_from_view_page(self, index):
+        wd = self.app.wd
+        self.open_user_view_by_index(index)
+        text = wd.find_element_by_id("content").text
+        homephone = re.search("H: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        additionalphone = re.search("P: (.*)", text).group(1)
+        return User(homephone=homephone, workphone=workphone, mobilephone=mobilephone,
+                    additionalphone=additionalphone)
 
 # Методы для выбора контакта
 
@@ -94,14 +131,22 @@ class UserHelper:
             wd.find_element_by_name("email2").click()
             wd.find_element_by_name("email2").clear()
             wd.find_element_by_name("email2").send_keys(contact.email2)
-        if contact.hometel is not None:
+        if contact.homephone is not None:
             wd.find_element_by_name("home").click()
             wd.find_element_by_name("home").clear()
-            wd.find_element_by_name("home").send_keys(contact.hometel)
-        if contact.mobiletel is not None:
+            wd.find_element_by_name("home").send_keys(contact.homephone)
+        if contact.mobilephone is not None:
             wd.find_element_by_name("mobile").click()
             wd.find_element_by_name("mobile").clear()
-            wd.find_element_by_name("mobile").send_keys(contact.mobiletel)
+            wd.find_element_by_name("mobile").send_keys(contact.mobilephone)
+        if contact.workphone is not None:
+            wd.find_element_by_name("work").click()
+            wd.find_element_by_name("work").clear()
+            wd.find_element_by_name("work").send_keys(contact.workphone)
+        if contact.additionalphone is not None:
+            wd.find_element_by_name("phone2").click()
+            wd.find_element_by_name("phone2").clear()
+            wd.find_element_by_name("phone2").send_keys(contact.additionalphone)
 
 # Другие методы
 

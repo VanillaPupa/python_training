@@ -4,7 +4,7 @@ from sys import maxsize
 class User:
 
     def __init__(self, firstname=None, lastname=None, address=None, email=None, email2=None, homephone=None,
-                 mobilephone=None, user_id=None, workphone=None, additionalphone=None):
+                 user_id=None, workphone=None, mobilephone=None, additionalphone=None, all_phones_frome_home_page=None):
         self.firstname = firstname
         self.lastname = lastname
         self.address = address
@@ -15,6 +15,7 @@ class User:
         self.id = user_id
         self.workphone = workphone
         self.additionalphone = additionalphone
+        self.all_phones_frome_home_page = all_phones_frome_home_page
 
 
     def __repr__(self):
