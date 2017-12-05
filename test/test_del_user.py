@@ -5,8 +5,9 @@ from random import randrange
 def test_del_some_user(app):
     if app.user.count() == 0:
         contact = User(firstname="Sherlock", lastname="Holmes",
-                       address="221b, Baker Street, London, UK", email="Sherlock@Museum.com",
-                       email2="Holmes@Museum.com", homephone="3213213", mobilephone="+441712223355")
+                   address="221b, Baker Street, London, UK", email="Sherlock@museum.com",
+                   email2="Holmes@museum.com", email3="HolmesWatson@museum.com",homephone="321-32-13",
+                   mobilephone="+441712223355", workphone="123 12 31", additionalphone="+(44)1715553322")
         app.user.add(contact)
         app.user.open_home_page()
     old_user_list = app.user.get_user_list()
