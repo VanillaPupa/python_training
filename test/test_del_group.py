@@ -1,13 +1,24 @@
 from model.group import Group
-from random import randrange
+import pytest
+import random
+import string
 
 
-def test_del_some_group(app):
+def random_str(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+
+testdata = [Group(name=random_str("name", 10), header=random_str("header", 20),
+                  footer=random_str("footer", 20))]
+
+
+@pytest.mark.parametrize("group_form", testdata, ids=[repr(x) for x in testdata])
+def test_del_some_group(app, group_form):
     if app.group.count() == 0:
-        group_form = Group(name="Test group")
         app.group.create(group_form)
     old_groups = app.group.get_group_list()
-    index = randrange(len(old_groups))
+    index = random.randrange(len(old_groups))
     app.group.delete_by_index(index)
     new_groups = app.group.get_group_list()
     assert len(old_groups) - 1 == len(new_groups)

@@ -10,7 +10,8 @@ def random_str(prefix, maxlen):
 
 
 testdata = [Group(name="", header="", footer="")] + \
-           [Group(name=random_str("name", 10), header=random_str("header", 20), footer=random_str("footer", 20)) for i in range(5)]
+           [Group(name=random_str("name", 10), header=random_str("header", 20),
+                  footer=random_str("footer", 20)) for i in range(5)]
 
 
 @pytest.mark.parametrize("group_form", testdata, ids=[repr(x) for x in testdata])
