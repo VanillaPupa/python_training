@@ -19,7 +19,6 @@ class Application:
         self.group = GroupHelper(self)
         self.user = UserHelper(self)
         self.session = SessionHelper(self)
-        self.wd.get("http://localhost/addressbook/")
         self.base_url = base_url
 
     def is_valid(self):
