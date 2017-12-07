@@ -9,11 +9,11 @@ def test_del_some_user(app):
                    email2="Holmes@museum.com", email3="HolmesWatson@museum.com",homephone="321-32-13",
                    mobilephone="+441712223355", workphone="123 12 31", additionalphone="+(44)1715553322")
         app.user.add(contact)
-        app.user.open_home_page()
+        app.open_home_page()
     old_user_list = app.user.get_user_list()
     index = randrange(len(old_user_list))
     app.user.delete_by_index(index)
-    app.user.open_home_page()
+    app.open_home_page()
     new_user_list = app.user.get_user_list()
     assert len(old_user_list) - 1 == len(new_user_list)
     old_user_list[index:index+1] = []

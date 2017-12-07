@@ -13,7 +13,7 @@ class UserHelper:
     def get_user_list(self):
         if self.user_list_cache is None:
             wd = self.app.wd
-            self.open_home_page()
+            self.app.open_home_page()
             self.user_list_cache = []
             for row in wd.find_elements_by_name("entry"):
                 cells = row.find_elements_by_tag_name("td")
@@ -43,7 +43,7 @@ class UserHelper:
 
     def open_form_to_edit_by_index(self, index):
         wd = self.app.wd
-        self.open_home_page()
+        self.app.open_home_page()
         # Поиск элемента по индексу и нажатие на кнопку Edit
         wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
 
@@ -77,7 +77,7 @@ class UserHelper:
 
     def open_user_view_by_index(self, index):
         wd = self.app.wd
-        self.open_home_page()
+        self.app.open_home_page()
         wd.find_elements_by_css_selector("img[title='Details']")[index].click()
 
     def get_user_info_from_edit_page(self, index):
@@ -166,7 +166,4 @@ class UserHelper:
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
 
-    def open_home_page(self):
-        wd = self.app.wd
-        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0):
-            wd.get("http://localhost/addressbook/")
+

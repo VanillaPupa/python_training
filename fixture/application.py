@@ -6,7 +6,7 @@ from fixture.session import SessionHelper
 
 class Application:
 
-    def __init__(self, browser):
+    def __init__(self, browser, base_url):
         if browser == "firefox":
             self.wd = webdriver.Firefox()
         elif browser == "chrome":
@@ -20,6 +20,7 @@ class Application:
         self.user = UserHelper(self)
         self.session = SessionHelper(self)
         self.wd.get("http://localhost/addressbook/")
+        self.base_url = base_url
 
     def is_valid(self):
         try:
@@ -30,3 +31,8 @@ class Application:
 
     def destroy(self):
         self.wd.quit()
+
+    def open_home_page(self):
+        wd = self.wd
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0):
+            wd.get(self.base_url)
