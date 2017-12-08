@@ -6,6 +6,7 @@ class SessionHelper:
 # Login
 
     def ensure_login(self, username, password):
+        self.app.open_home_page()
         wd = self.app.wd
         # Если уже залогинен, то проверка с каким username
         if self.is_logged_in():
