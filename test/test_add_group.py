@@ -1,8 +1,8 @@
 from model.group import Group
 
 
-def test_create_group(app, data_groups):
-    group_form = data_groups
+def test_create_group(app, json_groups):
+    group_form = json_groups
     old_groups = app.group.get_group_list()
     app.group.create(group_form)
     new_groups = app.group.get_group_list()

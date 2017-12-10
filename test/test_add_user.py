@@ -1,8 +1,8 @@
 from model.user import User
 
 
-def test_add_user(app, data_users):
-    contact = data_users
+def test_add_user(app, json_users):
+    contact = json_users
     old_user_list = app.user.get_user_list()
     # добавление контакта
     app.user.add(contact)
