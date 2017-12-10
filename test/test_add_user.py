@@ -1,25 +1,6 @@
 from model.user import User
 import pytest
-import random
-import string
-
-
-def random_str(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + " "*10
-    return prefix + ": " + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-def random_phone(maxlen):
-    symbols = string.digits + "(" + ")" + "-" + "+" + " "
-    return "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-testdata = [User(firstname="", lastname="", address="", email="", email2="", email3="", homephone="", mobilephone="",
-                 workphone="", additionalphone="")] + \
-           [User(firstname=random_str("firstname", 10), lastname=random_str("lastname", 20),
-                 address=random_str("address", 70), email=random_str("email", 20), email2=random_str("email2", 20),
-                 email3=random_str("email3", 20), homephone=random_phone(10), mobilephone=random_phone(10),
-                 workphone=random_phone(10), additionalphone=random_phone(10))for i in range(5)]
+from data.users import constant as testdata
 
 
 @pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])

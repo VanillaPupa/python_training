@@ -1,5 +1,5 @@
 from model.group import Group
-from data.add_group import constant as testdata
+from data.groups import constant as testdata
 import pytest
 
 
