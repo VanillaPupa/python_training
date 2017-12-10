@@ -1,10 +1,8 @@
 from model.group import Group
-from data.groups import constant as testdata
-import pytest
 
 
-@pytest.mark.parametrize("group_form", testdata, ids=[repr(x) for x in testdata])
-def test_create_group(app, group_form):
+def test_create_group(app, data_groups):
+    group_form = data_groups
     old_groups = app.group.get_group_list()
     app.group.create(group_form)
     new_groups = app.group.get_group_list()

@@ -22,14 +22,6 @@ for o, a in opts:
         f = a
 
 
-# def random_str(prefix, maxlen):
-    # symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
-    # return prefix + ": " + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-#testdata = [Group(name="", header="", footer="")] + \
-           # [Group(name=random_str("name", 10), header=random_str("header", 20), footer=random_str("footer", 20)) for i in range(n)]
-
 def random_str(prefix, maxlen):
     symbols = string.ascii_letters + string.digits + " "*10
     return prefix + ": " + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])

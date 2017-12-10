@@ -1,10 +1,8 @@
 from model.user import User
-import pytest
-from data.users import constant as testdata
 
 
-@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
-def test_add_user(app, contact):
+def test_add_user(app, data_users):
+    contact = data_users
     old_user_list = app.user.get_user_list()
     # добавление контакта
     app.user.add(contact)
