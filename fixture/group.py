@@ -89,18 +89,3 @@ class GroupHelper:
 
     def update_first(self):
         self.update_by_index(0)
-
-    # def create_group(self, app, group_form, username, password):
-        # app.session.login(username, password)
-        # self.create(group_form)
-        # app.session.logout()
-
-    # def delete_first_group(self, app, username, password):
-        # app.session.login(username, password)
-        # self.delete_first()
-        # app.session.logout()
-
-    # def update_first_group(self, app, group_form, username, password):
-        # app.session.login(username, password)
-        # self.update_first(group_form)
-        # app.session.logout()
