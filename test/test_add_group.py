@@ -1,11 +1,12 @@
 from model.group import Group
 
 
-def test_create_group(app, db, json_groups):
-    group_form = json_groups
+def test_create_group(app, db, data_groups, check_ui):
+    group_form = data_groups
     old_groups = db.get_group_list()
     app.group.create(group_form)
     new_groups = db.get_group_list()
     old_groups.append(group_form)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
-
+    if check_ui:
+        assert sorted(db.get_group_list(), key=Group.id_or_max) == sorted(app.group.get_group_list(), key=Group.id_or_max)

@@ -1,12 +1,13 @@
 from model.user import User
 import re
 
+
 class UserHelper:
 
     def __init__(self, app):
         self.app = app
 
-# Получение списка контактов
+    # Получение списка контактов
 
     user_list_cache = None
 
@@ -28,7 +29,7 @@ class UserHelper:
                                                  all_emails_from_home_page=all_emails))
         return list(self.user_list_cache)
 
-# Методы для создания контакта
+    # Методы для создания контакта
 
     def add(self, contact):
         wd = self.app.wd
@@ -39,7 +40,7 @@ class UserHelper:
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.user_list_cache = None
 
-# Методы для редактирования контакта
+    # Методы для редактирования контакта
 
     def open_form_to_edit_by_index(self, index):
         wd = self.app.wd
@@ -58,7 +59,7 @@ class UserHelper:
     def update_first(self, contact):
         self.update_by_index(0, contact)
 
-# Методы для удаления контакта
+    # Методы для удаления контакта
 
     def delete_by_index(self, index):
         wd = self.app.wd
@@ -73,7 +74,7 @@ class UserHelper:
     def delete_first(self):
         self.delete_by_index(0)
 
-# Просмотр контакта
+    # Просмотр контакта
 
     def open_user_view_by_index(self, index):
         wd = self.app.wd
@@ -109,13 +110,13 @@ class UserHelper:
         return User(homephone=homephone, workphone=workphone, mobilephone=mobilephone,
                     additionalphone=additionalphone)
 
-# Методы для выбора контакта
+    # Методы для выбора контакта
 
     def select_user_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
-# Заполнение формы
+    # Заполнение формы
 
     def fill_user_form(self, contact):
         wd = self.app.wd
@@ -160,10 +161,8 @@ class UserHelper:
             wd.find_element_by_name("phone2").clear()
             wd.find_element_by_name("phone2").send_keys(contact.additionalphone)
 
-# Другие методы
+    # Другие методы
 
     def count(self):
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
-
-

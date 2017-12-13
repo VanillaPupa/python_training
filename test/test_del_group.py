@@ -1,27 +1,21 @@
 from model.group import Group
-# import pytest
 import random
-# import string
 
 
-# def random_str(prefix, maxlen):
-#     symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
-#     return prefix + ": " + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-# testdata = [Group(name=random_str("name", 10), header=random_str("header", 20),
-#                   footer=random_str("footer", 20))]
-
-
-# @pytest.mark.parametrize("group_form", testdata, ids=[repr(x) for x in testdata])
-def test_del_some_group(app, db):
+def test_del_some_group(app, db, check_ui):
     if len(db.get_group_list()) == 0:
         app.group.create(Group(name="name4del"))
     old_groups = db.get_group_list()
     group = random.choice(old_groups)
-    # index = random.randrange(len(old_groups))
     app.group.delete_by_id(group.id)
     new_groups = db.get_group_list()
     assert len(old_groups) - 1 == len(new_groups)
     old_groups.remove(group)
     assert old_groups == new_groups
+    if check_ui:
+        sorted_ui_groups = sorted(app.group.get_group_list(), key=Group.id_or_max)
+        sorted_new_groups = sorted(new_groups, key=Group.id_or_max)
+        indexes = range(len(new_groups))
+        eq_flags = [sorted_ui_groups[n].name == sorted_new_groups[n].name and sorted_ui_groups[n].id == sorted_new_groups[n].id for n in indexes]
+        result = all(eq_flags)
+        assert result
