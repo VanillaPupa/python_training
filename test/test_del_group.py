@@ -16,6 +16,7 @@ def test_del_some_group(app, db, check_ui):
         sorted_ui_groups = sorted(app.group.get_group_list(), key=Group.id_or_max)
         sorted_new_groups = sorted(new_groups, key=Group.id_or_max)
         indexes = range(len(new_groups))
-        eq_flags = [sorted_ui_groups[n].name == sorted_new_groups[n].name and sorted_ui_groups[n].id == sorted_new_groups[n].id for n in indexes]
+        eq_flags = [sorted_ui_groups[n].name == sorted_new_groups[n].name and
+                    sorted_ui_groups[n].id == sorted_new_groups[n].id for n in indexes]
         result = all(eq_flags)
         assert result
