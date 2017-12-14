@@ -1,13 +1,14 @@
 from model.user import User
 
 
-def test_add_user(app, db, json_users, check_ui):
-    contact = json_users
+def test_add_user(app, db, data_users, check_ui):
+    contact = data_users
+    # формирование списка контактов
     old_user_list = db.get_user_list()
     # добавление контакта
     app.user.add(contact)
     # формирование нового списка пользователей
-    new_user_list = app.user.get_user_list()
+    new_user_list = db.get_user_list()
     # проверка, что новый список длиннее старого на 1
     assert len(old_user_list) + 1 == len(new_user_list)
     # добавление контакта в старый список

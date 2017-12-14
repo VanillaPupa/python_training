@@ -1,5 +1,6 @@
 import pymysql
 from model.group import Group
+from model.user import User
 
 
 class DbFixture:
@@ -22,6 +23,19 @@ class DbFixture:
         finally:
             cursor.close()
         return list
+
+    def get_user_list(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id, firstname, lastname, address from addressbook")
+            for row in cursor:
+                (id, firstname, lastname, address) = row
+                list.append(User(id=str(id), firstname=firstname, lastname=lastname, address=address))
+        finally:
+            cursor.close()
+        return list
+
 
     def destroy(self):
         self.connection.close()
