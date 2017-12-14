@@ -14,4 +14,5 @@ def test_add_user(app, db, data_users, check_ui):
     # добавление контакта в старый список
     old_user_list.append(contact)
     # проверка совпадения контактов из старого и нового списков
+    # ПОТЕРЯЛСЯ ID у добавленного элемента
     assert sorted(old_user_list, key=User.id_or_max) == sorted(new_user_list, key=User.id_or_max)

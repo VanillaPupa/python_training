@@ -26,16 +26,19 @@ class DbFixture:
 
     def get_user_list(self):
         list = []
+        user_list = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute("select id, firstname, lastname, address from addressbook")
+            cursor.execute("select id, firstname, lastname, address, deprecated from addressbook")
             for row in cursor:
-                (id, firstname, lastname, address) = row
-                list.append(User(id=str(id), firstname=firstname, lastname=lastname, address=address))
+                (id, firstname, lastname, address, deprecated) = row
+                list.append(User(firstname=firstname, lastname=lastname, address=address, user_id=str(id), deprecated=deprecated))
+            for n in range(len(list)):
+                if list[n].deprecated is None:
+                    user_list.append(list[n])
         finally:
             cursor.close()
-        return list
-
+        return user_list
 
     def destroy(self):
         self.connection.close()
