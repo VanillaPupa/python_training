@@ -30,12 +30,10 @@ class DbFixture:
         cursor = self.connection.cursor()
         try:
             cursor.execute("select id, firstname, lastname, address, deprecated from addressbook")
-            for row in cursor:
-                (id, firstname, lastname, address, deprecated) = row
-                list.append(User(firstname=firstname, lastname=lastname, address=address, user_id=str(id), deprecated=deprecated))
-            for n in range(len(list)):
-                if list[n].deprecated is None:
-                    user_list.append(list[n])
+            for (id, firstname, lastname, address, deprecated) in cursor:
+                list.append(User(firstname=firstname, lastname=lastname, address=address, user_id=str(id),
+                                 deprecated=deprecated))
+            user_list = [user for user in list if user.deprecated is None]
         finally:
             cursor.close()
         return user_list

@@ -42,11 +42,27 @@ class UserHelper:
 
     # Методы для редактирования контакта
 
+    def open_form_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        # Поиск элемента по индексу и нажатие на кнопку Edit
+        # href = "edit.php?id=54"
+        # ("input[value='%s']" % id)
+        wd.find_element_by_css_selector('''a[href="edit.php?id='%s'"]''' % id).click()
+
     def open_form_to_edit_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
         # Поиск элемента по индексу и нажатие на кнопку Edit
         wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
+
+    def update_by_id(self, id, contact):
+        wd = self.app.wd
+        self.open_form_to_edit_by_id(id)
+        self.fill_user_form(contact)
+        # submit user update
+        wd.find_element_by_name("update").click()
+        self.user_list_cache = None
 
     def update_by_index(self, index, contact):
         wd = self.app.wd
@@ -60,6 +76,16 @@ class UserHelper:
         self.update_by_index(0, contact)
 
     # Методы для удаления контакта
+
+    def delete_by_id(self, id):
+        wd = self.app.wd
+        self.select_by_id(id)
+        # submit deletion
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        # confirm deletion
+        wd.switch_to_alert().accept()
+        wd.find_elements_by_css_selector("div.msgbox")
+        self.user_list_cache = None
 
     def delete_by_index(self, index):
         wd = self.app.wd
@@ -111,6 +137,10 @@ class UserHelper:
                     additionalphone=additionalphone)
 
     # Методы для выбора контакта
+
+    def select_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def select_user_by_index(self, index):
         wd = self.app.wd
