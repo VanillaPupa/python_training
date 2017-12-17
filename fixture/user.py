@@ -46,9 +46,8 @@ class UserHelper:
         wd = self.app.wd
         self.app.open_home_page()
         # Поиск элемента по индексу и нажатие на кнопку Edit
-        # href = "edit.php?id=54"
-        # ("input[value='%s']" % id)
-        wd.find_element_by_css_selector('''a[href="edit.php?id='%s'"]''' % id).click()
+        link = "edit.php?id=" + str(id)
+        wd.find_element_by_css_selector("a[href='%s']" % link).click()
 
     def open_form_to_edit_by_index(self, index):
         wd = self.app.wd

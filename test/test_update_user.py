@@ -14,20 +14,18 @@ def test_update_some_user(app, db, check_ui):
     old_user_list = db.get_user_list()
     # выбор индекса
     user = random.choice(old_user_list)
-    # index = randrange(len(old_user_list))
     # новый объект
     contact = User(firstname="John H.", lastname="Watson", email="JohnH.Watson@Museum.com", email2="Dr.Watson@Museum.com")
     # запись id в новый объект
     contact.id = user.id
     # перезапись строчки
-    app.user.update_by_id(id, contact)
+    app.user.update_by_id(user.id, contact)
     # формирование нового списка
     new_user_list = db.get_user_list()
     # сравнение длин списков
     assert len(old_user_list) == len(new_user_list)
     # перезапись строчки старого списка
-    updated_old_user_list = [user if user.id != old_user_list.id else contact for user in old_user_list]
-    # old_user_list[index] = contact
+    updated_old_user_list = [user if user.id != contact.id else contact for user in old_user_list]
     # сравнение отсортированных списков
     assert sorted(updated_old_user_list, key=lambda user: user.id) == sorted(new_user_list, key=lambda user: user.id)
     if check_ui:

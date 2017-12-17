@@ -26,7 +26,6 @@ class DbFixture:
 
     def get_user_list(self):
         list = []
-        user_list = []
         cursor = self.connection.cursor()
         try:
             cursor.execute("select id, firstname, lastname, address, deprecated from addressbook")
